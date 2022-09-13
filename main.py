@@ -23,13 +23,16 @@ def download_audio(link):
 	thumbnail = yt.thumbnail_url
 	title = yt.title 
 	best_audio_stream = yt.streams.filter(only_audio=True).get_audio_only()
-	best_audio_stream.download()
-	command_for_converting = 'ffmpeg.exe -y -loglevel quiet -i "'+ title + '.mp4" "' + title+'.mp3"'
+	title = best_audio_stream.download()#os.path.join(os.getcwd(), title+'.mp4'))
+	command_for_converting = 'ffmpeg.exe -y -loglevel quiet -i "'+ title + '" "' + title.replace('mp4', 'mp3')+'"'
+	if os.name == 'posix':
+		command_for_converting = command_for_converting.replace('ffmpeg.exe', 'ffmpeg')
 	os.system(command_for_converting)
-	os.remove(title+'.mp4')
-	audio_path = title + '.mp3'
-	download_thumbnail(thumbnail, title)
-	picture_path = title + thumbnail[-4:]
+	os.remove(title)
+	audio_path = title.replace('mp4', 'mp3')
+	download_thumbnail(thumbnail, title.replace('.mp4', ''))
+	picture_path = title.replace('.mp4', '') + thumbnail[-4:]
+	print(picture_path)
 	audio = MP3(audio_path, ID3=ID3)
 	#audio.add_tags()
 	audio.tags.add(APIC(mime='image/jpeg',type=3,desc=u'Cover',data=open(picture_path,'rb').read()))
