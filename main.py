@@ -42,13 +42,25 @@ def download_audio(link):
 
 print("""Welcome to youtube dowbloader by yaneivan!
 What would you like to download?
+(You can input multiple links, separated by space)
 1) Video
 2) Song""")
 target = input()
 if target == '1':
 	link = input('Please enter link to the video: ')
-	download_video(link)
+	if ' ' in link:
+		links = link.split(' ')
+		for link in links:
+			download_video(link)
+	else:
+		download_video(link)
+
 elif target == '2':
 	link = input('Please enter link to the song: ')
-	download_audio(link)
+	if ' ' in link:
+		links = link.split(' ')
+		for link in links:
+			download_audio(link)
+	else:
+		download_audio(link)
 print('Done.')
