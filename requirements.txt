@@ -1,3 +1,4 @@
-pytube
+git+https://github.com/Larp-Thon/pytube-fixed.git
 mutagen
 requests
+pydub
